@@ -7,6 +7,7 @@ public class Base {
     private double price;
     private String message;
     private String position;
+    private static final int INITIAL_PRICE = 5;
 
     public Base(String itemName, int quantity, double price, String message, String position) {
         this.itemName = itemName;
@@ -14,6 +15,10 @@ public class Base {
         this.price = price;
         this.message = message;
         this.position = position;
+    }
+
+    public Base() {
+
     }
 
     public String getItemName() {
@@ -34,5 +39,9 @@ public class Base {
 
     public String getPosition() {
         return position;
+    }
+
+    public static int getInitialPrice() {
+        return INITIAL_PRICE;
     }
 }

@@ -12,6 +12,7 @@ public class VendingMachine {
     private double balance;
     private double moneyInserted;
     private double change;
+    private List<Base> items;
 
     public VendingMachine(double balance, double moneyInserted, double change) {
         this.balance = balance;
@@ -36,13 +37,10 @@ public class VendingMachine {
         return change;
     }
 
+
     public double changeDue(double getPrice) {
         balance -= getPrice;
         return balance;
-    }
-
-    public double moneyInserted() {
-        return moneyInserted;
     }
 
     public double getUserInputMoney() {
@@ -60,39 +58,29 @@ public class VendingMachine {
         } catch (NullPointerException e) {
             System.out.println("Please enter an item to vend");
         }
-        //catch (IOException e) {
-        //if (userSelection)
-        // }
         return "";
     }
 
     File inventory = new File("vendingmachine.csv");
     // Scanner invList = new Scanner(inventory.toString());
 
-    public static String getInventory(File inventory) {
-        List<String> category = new ArrayList<String>();
-        List<String> position = new ArrayList<String>();
-        List<String> name = new ArrayList<>();
-        List<String> price = new ArrayList<>();
+    public void getInventory(File inventory, List category, List position, List price, List name) {
         try (Scanner fileScanner = new Scanner(inventory)) {
+            int counter = 0;
             while (fileScanner.hasNextLine()) {
                 String line = fileScanner.nextLine();
                 try {
                     List<String> separatedList = new ArrayList<String>(Arrays.asList(line.split("\\|")));
-                    position.add(separatedList.get(0));
-                    name.add(separatedList.get(1));
-                    price.add(separatedList.get(2));
-                    category.add(separatedList.get(3));
+                    if (separatedList.get(counter).equalsIgnoreCase("Chip")) {
+                        List<Chips> chip = new ArrayList<Chips>();
+                        Chips chips = new Chips(name.get(counter), Base.getInitialPrice(), price.get(counter), "Crunch Crunch, Yum!", category.get(counter));
+                    }
                 } catch (Exception e) {
                     System.out.println("No Inventory.");
-                }
+                }counter++;
             }
         } catch (IOException e) {
-
+            System.out.println("Bad input data");
         }
-
-        return "";
     }
-
-
 }
