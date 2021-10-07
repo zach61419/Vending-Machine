@@ -3,6 +3,7 @@ package com.techelevator.view;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -56,38 +57,42 @@ public class VendingMachine {
         String userSelection = "";
         try (Scanner getSelection = new Scanner(System.in)) {
 
-        }
-        catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             System.out.println("Please enter an item to vend");
         }
         //catch (IOException e) {
-            //if (userSelection)
-       // }
+        //if (userSelection)
+        // }
         return "";
     }
 
     File inventory = new File("vendingmachine.csv");
-   // Scanner invList = new Scanner(inventory.toString());
+    // Scanner invList = new Scanner(inventory.toString());
 
-    public static String getInventory(File inventory){
-        List<String> lines = new ArrayList<String>();
+    public static String getInventory(File inventory) {
+        List<String> category = new ArrayList<String>();
         List<String> position = new ArrayList<String>();
         List<String> name = new ArrayList<>();
-        List<Double> price = new ArrayList<>();
-      try(Scanner fileScanner = new Scanner(inventory)){
-          while(fileScanner.hasNextLine()){
-              lines.add(fileScanner.nextLine());
-          }
-      }catch (Exception e){
-          System.out.println("No Inventory.");
-      }
-        for (String pos : lines){
-            position.add(pos.substring(0,3));
+        List<String> price = new ArrayList<>();
+        try (Scanner fileScanner = new Scanner(inventory)) {
+            while (fileScanner.hasNextLine()) {
+                String line = fileScanner.nextLine();
+                try {
+                    List<String> separatedList = new ArrayList<String>(Arrays.asList(line.split("\\|")));
+                    position.add(separatedList.get(0));
+                    name.add(separatedList.get(1));
+                    price.add(separatedList.get(2));
+                    category.add(separatedList.get(3));
+                } catch (Exception e) {
+                    System.out.println("No Inventory.");
+                }
+            }
+        } catch (IOException e) {
+
         }
 
         return "";
     }
-
 
 
 }
