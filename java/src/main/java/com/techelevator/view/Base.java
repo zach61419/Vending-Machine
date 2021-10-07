@@ -6,12 +6,14 @@ public class Base {
     private int quantity;
     private double price;
     private String message;
+    private String position;
 
-    public Base(String itemName, int quantity, double price, String message) {
+    public Base(String itemName, int quantity, double price, String message, String position) {
         this.itemName = itemName;
         this.quantity = quantity;
         this.price = price;
         this.message = message;
+        this.position = position;
     }
 
     public String getItemName() {
@@ -30,5 +32,7 @@ public class Base {
         return message;
     }
 
-
+    public String getPosition() {
+        return position;
+    }
 }
