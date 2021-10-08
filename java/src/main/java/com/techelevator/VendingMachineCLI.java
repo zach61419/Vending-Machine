@@ -1,10 +1,12 @@
 package com.techelevator;
 
 import com.techelevator.view.Base;
+import com.techelevator.view.MathLogic;
 import com.techelevator.view.Menu;
 import com.techelevator.view.VendingMachine;
 
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 
 public class VendingMachineCLI {
@@ -14,6 +16,7 @@ public class VendingMachineCLI {
     private static final String MAIN_MENU_EXIT = "Exit";
     private static final String[] MAIN_MENU_OPTIONS = {MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE, MAIN_MENU_EXIT};
     private VendingMachine vendingMachine = new VendingMachine();
+    private MathLogic mathLogic = new MathLogic();
 
     private Menu menu;
 
@@ -34,7 +37,17 @@ public class VendingMachineCLI {
                     + inventoryPair.getValue().getQuantity() + " remaining | Price: " + inventoryPair.getValue().getPrice());
                 }
             } else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
+                System.out.print("Give Money: ");
+                Scanner userInputMoney = new Scanner(System.in);
+                double money = Double.parseDouble(userInputMoney.nextLine());
+                System.out.println();
+                System.out.println("Enter Selection: ");
+                Scanner userInputSelection = new Scanner(System.in);
+                String selection = userInputSelection.nextLine();
+
+                //System.out.println("You picked " + selection + " for " + itemPrice + " and are owed " + balance);
                 // do purchase
+                vendingMachine.purchase(selection, money);
             } else if (choice.equals(MAIN_MENU_EXIT)) {
                 running = false;
             }

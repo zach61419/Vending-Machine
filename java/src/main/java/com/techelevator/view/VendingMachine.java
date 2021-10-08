@@ -7,9 +7,7 @@ import java.util.*;
 
 public class VendingMachine {
 
-
     private Map<String, Base> inventoryMap;
-
     public VendingMachine() {
 
     }
@@ -71,4 +69,42 @@ public class VendingMachine {
             System.out.println("Bad input data");
         }
     }
+
+    public void purchase(String selection, double money){
+        int quantity = 0;
+        double itemPrice = 0;
+        String message = "";
+        double change = 0;
+        for (Map.Entry<String, Base> i : inventoryMap.entrySet()){
+            if ( i.getKey().equalsIgnoreCase(selection)){
+                quantity = i.getValue().getQuantity();
+                itemPrice = i.getValue().getPrice();
+                message = i.getValue().getMessage();
+
+                if (money == 0){
+                    System.out.println("Add Money");
+                }
+                else if(quantity == 0){
+                    System.out.println("SOLD OUT");
+                }else if(money < itemPrice) {
+                    System.out.println("Not Enough Money");
+                }
+                else if (money >= itemPrice){
+                    change = money - itemPrice;
+                  // quantity --;
+                   // i.setValue(i.getValue());
+                    System.out.println("You picked " + selection + " for " + itemPrice + " and are owed " + change);
+                    System.out.println(message);
+                }
+            }
+        }
+        
+    }
+
 }
+/**
+ * track quantity
+ * create a 'balance' to keep track of money, so we can add more money as we go along in the program
+ * round the decimals
+ * log
+ */
