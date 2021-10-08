@@ -3,11 +3,10 @@ package com.techelevator.view;
 public class Base {
 
     private String itemName;
-    private int quantity;
+    private int quantity = 5;
     private double price;
     private String message;
     private String position;
-    private static final int INITIAL_PRICE = 5;
 
     public Base(String itemName, int quantity, double price, String message, String position) {
         this.itemName = itemName;
@@ -17,9 +16,6 @@ public class Base {
         this.position = position;
     }
 
-    public Base() {
-
-    }
 
     public String getItemName() {
         return itemName;
@@ -41,7 +37,5 @@ public class Base {
         return position;
     }
 
-    public static int getInitialPrice() {
-        return INITIAL_PRICE;
-    }
+
 }

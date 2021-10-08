@@ -2,45 +2,20 @@ package com.techelevator.view;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class VendingMachine {
 
-    private double balance;
-    private double moneyInserted;
-    private double change;
-    private List<Base> items;
 
-    public VendingMachine(double balance, double moneyInserted, double change) {
-        this.balance = balance;
-        this.moneyInserted = moneyInserted;
-        this.change = change;
+    private Map<String, Base> inventoryMap;
+
+    public VendingMachine() {
+
     }
 
-
-    public double getBalance() {
-        return balance;
-    }
-
-    public double getMoneyInserted() {
-        return moneyInserted;
-    }
-
-    public void setMoneyInserted(double moneyInserted) {
-        this.moneyInserted = moneyInserted;
-    }
-
-    public double getChange() {
-        return change;
-    }
-
-
-    public double changeDue(double getPrice) {
-        balance -= getPrice;
-        return balance;
+    public Map<String, Base> getInventoryMap() {
+        return inventoryMap;
     }
 
     public double getUserInputMoney() {
@@ -61,23 +36,36 @@ public class VendingMachine {
         return "";
     }
 
-    File inventory = new File("vendingmachine.csv");
-    // Scanner invList = new Scanner(inventory.toString());
 
-    public void getInventory(File inventory, List category, List position, List price, List name) {
+    public void loadInventory() {
+        File inventory = new File("vendingmachine.csv");
         try (Scanner fileScanner = new Scanner(inventory)) {
             int counter = 0;
+            inventoryMap = new HashMap<String, Base>();
             while (fileScanner.hasNextLine()) {
                 String line = fileScanner.nextLine();
                 try {
                     List<String> separatedList = new ArrayList<String>(Arrays.asList(line.split("\\|")));
-                    if (separatedList.get(counter).equalsIgnoreCase("Chip")) {
-                        List<Chips> chip = new ArrayList<Chips>();
-                        Chips chips = new Chips(name.get(counter), Base.getInitialPrice(), price.get(counter), "Crunch Crunch, Yum!", category.get(counter));
+                    if (separatedList.get(3).equalsIgnoreCase("Chip")) {
+                        Chips chip = new Chips(separatedList.get(1), 5, Double.parseDouble(separatedList.get(2)), "Crunch Crunch, Yum!", separatedList.get(0));
+                        inventoryMap.put(separatedList.get(0), chip);
+                    }
+                    if (separatedList.get(3).equalsIgnoreCase("Candy")) {
+                        Candy candy = new Candy(separatedList.get(1), 5, Double.parseDouble(separatedList.get(2)), "Munch Munch, Yum!", separatedList.get(0));
+                        inventoryMap.put(separatedList.get(0), candy);
+                    }
+                    if (separatedList.get(3).equalsIgnoreCase("Drink")) {
+                        Drinks drink = new Drinks(separatedList.get(1), 5, Double.parseDouble(separatedList.get(2)), "Glug Glug, Yum!", separatedList.get(0));
+                        inventoryMap.put(separatedList.get(0), drink);
+                    }
+                    if (separatedList.get(3).equalsIgnoreCase("Gum")) {
+                        Gum gum = new Gum(separatedList.get(1), 5, Double.parseDouble(separatedList.get(2)), "Chew Chew, Yum!", separatedList.get(0));
+                        inventoryMap.put(separatedList.get(0), gum);
                     }
                 } catch (Exception e) {
                     System.out.println("No Inventory.");
-                }counter++;
+                }
+                counter++;
             }
         } catch (IOException e) {
             System.out.println("Bad input data");
