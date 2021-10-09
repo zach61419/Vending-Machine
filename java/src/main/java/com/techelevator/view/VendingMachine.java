@@ -9,14 +9,13 @@ public class VendingMachine {
 
     private Map<String, Base> inventoryMap;
     public VendingMachine() {
-
     }
 
     public Map<String, Base> getInventoryMap() {
         return inventoryMap;
     }
 
-    public double getUserInputMoney() {
+    public double userInputMoney() {
         Scanner getMoney = new Scanner(System.in);
         double i = Double.parseDouble(getMoney.toString());
         System.out.println("Please enter money ");
@@ -91,9 +90,8 @@ public class VendingMachine {
                 }
                 else if (money >= itemPrice){
                     change = money - itemPrice;
-                  // quantity --;
-                   // i.setValue(i.getValue());
-                    System.out.println("You picked " + selection + " for " + itemPrice + " and are owed " + change);
+                    i.getValue().setQuantity(quantity - 1);
+                    System.out.println("You picked " + i.getValue().getItemName() + " for " + itemPrice + " and are owed " + change);
                     System.out.println(message);
                 }
             }
