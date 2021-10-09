@@ -7,8 +7,42 @@ import java.util.*;
 
 public class VendingMachine {
 
+    private int quantity;
+    private double change;
+    private double money;
+    private String changeDue;
     private Map<String, Base> inventoryMap;
+
+
     public VendingMachine() {
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getChange() {
+        return change;
+    }
+
+    public void setChange(double change) {
+        this.change = change;
+    }
+
+    public double getMoney() {
+        return money;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
+    }
+
+    public String getChangeDue() {
+        return changeDue;
     }
 
     public Map<String, Base> getInventoryMap() {
@@ -69,36 +103,72 @@ public class VendingMachine {
         }
     }
 
-    public void purchase(String selection, double money){
-        int quantity = 0;
+    public int purchase(String selection, double money) {
         double itemPrice = 0;
-        String message = "";
-        double change = 0;
-        for (Map.Entry<String, Base> i : inventoryMap.entrySet()){
-            if ( i.getKey().equalsIgnoreCase(selection)){
+        for (Map.Entry<String, Base> i : inventoryMap.entrySet()) {
+            if (i.getKey().equalsIgnoreCase(selection)) {
                 quantity = i.getValue().getQuantity();
                 itemPrice = i.getValue().getPrice();
-                message = i.getValue().getMessage();
-
-                if (money == 0){
+                if (money == 0) {
                     System.out.println("Add Money");
-                }
-                else if(quantity == 0){
+                } else if (quantity == 0) {
                     System.out.println("SOLD OUT");
-                }else if(money < itemPrice) {
+                } else if (money < itemPrice) {
                     System.out.println("Not Enough Money");
-                }
-                else if (money >= itemPrice){
-                    change = money - itemPrice;
+                } else if (money >= itemPrice) {
                     i.getValue().setQuantity(quantity - 1);
-                    System.out.println("You picked " + i.getValue().getItemName() + " for " + itemPrice + " and are owed " + change);
-                    System.out.println(message);
                 }
             }
         }
-        
+        return quantity;
+
     }
 
+    public String changeDue(String selection) {
+        String changeDue = "";
+        double itemPrice = 0;
+        int dollars = 0;
+        int quarters = 0;
+        int dimes = 0;
+        int nickels = 0;
+        for (Map.Entry<String, Base> i : inventoryMap.entrySet()) {
+            if (i.getKey().equalsIgnoreCase(selection)) {
+                itemPrice = i.getValue().getPrice();
+                change = getMoney() - itemPrice;
+            }
+        }
+        if (change >= 1) {
+            while (change >= 1) {
+                change--;
+                dollars++;
+            }
+        } else if (change >= 0.25) {
+            while (change >= 0.25) {
+                change -= 0.25;
+                quarters++;
+            }
+        } else if (change >= 0.1) {
+            while (change >= 0.1) {
+                change -= 0.1;
+                dimes++;
+            }
+        } else if (change >= 0.05) {
+            while (change >= 0.05) {
+                change -= 0.05;
+                nickels++;
+            }
+        }
+        if (dollars > 0) {
+            changeDue += "Dollar bills: " + String.valueOf(dollars);
+        } else if (quarters > 0) {
+            changeDue += ", Quarters: " + String.valueOf(quarters);
+        } else if (dimes > 0) {
+            changeDue += ", Dimes: " + String.valueOf(dimes);
+        } else if (nickels > 0) {
+            changeDue += ", Nickels: " + String.valueOf(nickels);
+        }
+        return changeDue;
+    }
 }
 /**
  * track quantity

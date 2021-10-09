@@ -34,20 +34,20 @@ public class VendingMachineCLI {
             if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
                 for (Map.Entry<String, Base> inventoryPair : vendingMachine.getInventoryMap().entrySet()) {
                     System.out.println(inventoryPair.getValue().getPosition() + ") " + inventoryPair.getValue().getItemName() + " | "
-                    + inventoryPair.getValue().getQuantity() + " remaining | Price: " + inventoryPair.getValue().getPrice());
+                            + inventoryPair.getValue().getQuantity() + " remaining | Price: " + inventoryPair.getValue().getPrice());
                 }
             } else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
                 System.out.print("Give Money: ");
                 Scanner userInputMoney = new Scanner(System.in);
-                double money = Double.parseDouble(userInputMoney.nextLine());
+                vendingMachine.setMoney(vendingMachine.getMoney() + Double.parseDouble(userInputMoney.nextLine()));
                 System.out.println();
                 System.out.println("Enter Selection: ");
                 Scanner userInputSelection = new Scanner(System.in);
                 String selection = userInputSelection.nextLine();
+                vendingMachine.purchase(selection, vendingMachine.getMoney());
+                System.out.println("You picked " + selection + " for " + vendingMachine.getInventoryMap().get(selection.toUpperCase()).getItemName() + " and are owed " + vendingMachine.changeDue(selection));
+                System.out.println(vendingMachine.getInventoryMap().get(selection.toUpperCase()).getMessage());
 
-                //System.out.println("You picked " + selection + " for " + itemPrice + " and are owed " + balance);
-                // do purchase
-                vendingMachine.purchase(selection, money);
             } else if (choice.equals(MAIN_MENU_EXIT)) {
                 running = false;
             }
