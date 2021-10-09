@@ -12,6 +12,10 @@ public class VendingMachine {
     private double money;
     private String changeDue;
     private Map<String, Base> inventoryMap;
+    private double price;
+    private String selection;
+    private String itemName;
+    private String message;
 
 
     public VendingMachine() {
@@ -49,22 +53,41 @@ public class VendingMachine {
         return inventoryMap;
     }
 
-    public double userInputMoney() {
-        Scanner getMoney = new Scanner(System.in);
-        double i = Double.parseDouble(getMoney.toString());
-        System.out.println("Please enter money ");
-        double moneyGiven = i;
-        return moneyGiven;
+    public double getPrice() {
+        return price;
     }
 
-    public String getUserItemSelection() {
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getSelection() {
+        return selection;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public double userInputMoney() {
+        Scanner getMoney = new Scanner(System.in);
+        System.out.println("Please enter money ");
+        return Double.parseDouble(getMoney.nextLine());
+    }
+
+    public String userItemSelection() {
         String userSelection = "";
         try (Scanner getSelection = new Scanner(System.in)) {
-
+            System.out.println("Please choose an item to vend");
+            userSelection = getSelection.nextLine();
         } catch (NullPointerException e) {
-            System.out.println("Please enter an item to vend");
+            System.out.println("Not a valid item");
         }
-        return "";
+        return userSelection;
     }
 
 
@@ -107,8 +130,10 @@ public class VendingMachine {
         double itemPrice = 0;
         for (Map.Entry<String, Base> i : inventoryMap.entrySet()) {
             if (i.getKey().equalsIgnoreCase(selection)) {
+                itemName = i.getValue().getItemName();
                 quantity = i.getValue().getQuantity();
-                itemPrice = i.getValue().getPrice();
+                price = i.getValue().getPrice();
+                message = i.getValue().getMessage();
                 if (money == 0) {
                     System.out.println("Add Money");
                 } else if (quantity == 0) {
@@ -142,17 +167,17 @@ public class VendingMachine {
                 change--;
                 dollars++;
             }
-        } else if (change >= 0.25) {
+        } if (change >= 0.25) {
             while (change >= 0.25) {
                 change -= 0.25;
                 quarters++;
             }
-        } else if (change >= 0.1) {
+        } if (change >= 0.1) {
             while (change >= 0.1) {
                 change -= 0.1;
                 dimes++;
             }
-        } else if (change >= 0.05) {
+        } if (change >= 0.05) {
             while (change >= 0.05) {
                 change -= 0.05;
                 nickels++;
@@ -160,13 +185,14 @@ public class VendingMachine {
         }
         if (dollars > 0) {
             changeDue += "Dollar bills: " + String.valueOf(dollars);
-        } else if (quarters > 0) {
+        } if (quarters > 0) {
             changeDue += ", Quarters: " + String.valueOf(quarters);
-        } else if (dimes > 0) {
+        } if (dimes > 0) {
             changeDue += ", Dimes: " + String.valueOf(dimes);
-        } else if (nickels > 0) {
+        } if (nickels > 0) {
             changeDue += ", Nickels: " + String.valueOf(nickels);
         }
+        money -= itemPrice;
         return changeDue;
     }
 }
