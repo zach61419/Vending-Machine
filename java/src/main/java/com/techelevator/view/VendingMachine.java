@@ -3,6 +3,8 @@ package com.techelevator.view;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.*;
 
 public class VendingMachine {
@@ -74,20 +76,27 @@ public class VendingMachine {
     }
 
     public double userInputMoney() {
-        Scanner getMoney = new Scanner(System.in);
-        System.out.println("Please enter money ");
-        return Double.parseDouble(getMoney.nextLine());
+        try {
+            Scanner getMoney = new Scanner(System.in);
+            System.out.print("Please enter money ");
+            money += Double.parseDouble(getMoney.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("Not a valid input");
+        }
+        return money;
     }
 
     public String userItemSelection() {
-        String userSelection = "";
-        try (Scanner getSelection = new Scanner(System.in)) {
-            System.out.println("Please choose an item to vend");
-            userSelection = getSelection.nextLine();
+        try {
+            Scanner getSelection = new Scanner(System.in);
+            System.out.print("Please choose an item to vend ");
+            selection = getSelection.nextLine();
         } catch (NullPointerException e) {
             System.out.println("Not a valid item");
+        } catch (NumberFormatException e) {
+            System.out.println("Not a valid input");
         }
-        return userSelection;
+        return selection;
     }
 
 
@@ -126,8 +135,7 @@ public class VendingMachine {
         }
     }
 
-    public int purchase(String selection, double money) {
-        double itemPrice = 0;
+    public void purchase(String selection) {
         for (Map.Entry<String, Base> i : inventoryMap.entrySet()) {
             if (i.getKey().equalsIgnoreCase(selection)) {
                 itemName = i.getValue().getItemName();
@@ -136,21 +144,15 @@ public class VendingMachine {
                 message = i.getValue().getMessage();
                 if (money == 0) {
                     System.out.println("Add Money");
-                } else if (quantity == 0) {
-                    System.out.println("SOLD OUT");
-                } else if (money < itemPrice) {
-                    System.out.println("Not Enough Money");
-                } else if (money >= itemPrice) {
+                } else if (money >= price && quantity > 0) {
                     i.getValue().setQuantity(quantity - 1);
                 }
             }
         }
-        return quantity;
-
     }
 
-    public String changeDue(String selection) {
-        String changeDue = "";
+    public void changeDue(String selection) {
+        double userChange = 0;
         double itemPrice = 0;
         int dollars = 0;
         int quarters = 0;
@@ -159,46 +161,46 @@ public class VendingMachine {
         for (Map.Entry<String, Base> i : inventoryMap.entrySet()) {
             if (i.getKey().equalsIgnoreCase(selection)) {
                 itemPrice = i.getValue().getPrice();
-                change = getMoney() - itemPrice;
+                userChange = money - itemPrice;
             }
         }
-        if (change >= 1) {
-            while (change >= 1) {
-                change--;
+        if (userChange >= 1) {
+            while (userChange >= 1) {
+                userChange -= 1;
                 dollars++;
             }
-        } if (change >= 0.25) {
-            while (change >= 0.25) {
-                change -= 0.25;
+        }
+        if (userChange >= 0.25) {
+            while (userChange >= 0.25) {
+                userChange -= 0.25;
                 quarters++;
             }
-        } if (change >= 0.1) {
-            while (change >= 0.1) {
-                change -= 0.1;
+        }
+        if (userChange >= 0.1) {
+            while (userChange >= 0.1) {
+                userChange -= 0.1;
                 dimes++;
             }
-        } if (change >= 0.05) {
-            while (change >= 0.05) {
-                change -= 0.05;
+        }
+        if (userChange >= 0.048) {
+            while (userChange >= 0.048) {
+                userChange -= 0.05;
                 nickels++;
             }
         }
-        if (dollars > 0) {
-            changeDue += "Dollar bills: " + String.valueOf(dollars);
-        } if (quarters > 0) {
-            changeDue += ", Quarters: " + String.valueOf(quarters);
-        } if (dimes > 0) {
-            changeDue += ", Dimes: " + String.valueOf(dimes);
-        } if (nickels > 0) {
-            changeDue += ", Nickels: " + String.valueOf(nickels);
+        changeDue = "";
+        if(dollars > 0) {
+            changeDue = "Dollar bills: " + String.valueOf(dollars) + ", ";
+        }
+        if (quarters > 0) {
+            changeDue += "Quarters: " + String.valueOf(quarters) + ", ";
+        }
+        if (dimes > 0) {
+            changeDue += "Dimes: " + String.valueOf(dimes) + ", ";
+        }
+        if (nickels > 0) {
+            changeDue += "Nickels: " + String.valueOf(nickels);
         }
         money -= itemPrice;
-        return changeDue;
     }
 }
-/**
- * track quantity
- * create a 'balance' to keep track of money, so we can add more money as we go along in the program
- * round the decimals
- * log
- */
