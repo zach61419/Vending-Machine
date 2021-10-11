@@ -19,7 +19,6 @@ public class VendingMachineCLI {
     private static final String PURCHASE_MENU_FINISH_TRANSACTION = "Finish Transaction";
     private static final String[] PURCHASE_MENU_OPTIONS = {PURCHASE_MENU_FEED_MONEY, PURCHASE_MENU_SELECT_PRODUCT, PURCHASE_MENU_FINISH_TRANSACTION};
     private VendingMachine vendingMachine = new VendingMachine();
-    private MathLogic mathLogic = new MathLogic();
 
     private Menu menu;
 

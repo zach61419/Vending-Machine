@@ -16,9 +16,9 @@ public class VendingMachineLog {
         try (PrintWriter logger = new PrintWriter(new FileWriter("logs/Log.txt", true))) {
             logger.println(formattedDateTime + " : " + message);
         } catch (FileNotFoundException e) {
-            VendingMachineException logException = new VendingMachineException("Caught FileNotFoundException. Message: " + e.getMessage());
+            System.out.println("File Not Found");
         } catch (IOException e) {
-            throw new VendingMachineException(e.getMessage());
+            System.out.println("Invalid Input");
         }
     }
 }

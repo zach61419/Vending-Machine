@@ -99,7 +99,6 @@ public class VendingMachine {
         return selection;
     }
 
-
     public void loadInventory() {
         File inventory = new File("vendingmachine.csv");
         try (Scanner fileScanner = new Scanner(inventory)) {
