@@ -11,11 +11,14 @@ public class Menu {
 
 	private PrintWriter out;
 	private Scanner in;
-	private VendingMachine vendingMachine = new VendingMachine();
 
 	public Menu(InputStream input, OutputStream output) {
 		this.out = new PrintWriter(output);
 		this.in = new Scanner(input);
+	}
+
+	public Menu() {
+
 	}
 
 	public Object getChoiceFromOptions(Object[] options) {
@@ -45,6 +48,7 @@ public class Menu {
 	}
 
 	private void displayMenuOptions(Object[] options) {
+		NumberFormat formatter = new DecimalFormat("#0.00");
 		out.println();
 		for (int i = 0; i < options.length; i++) {
 			int optionNum = i + 1;
