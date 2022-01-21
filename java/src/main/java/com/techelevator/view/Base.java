@@ -64,9 +64,10 @@ public class Base {
     }
 
     public void getSelection() {
-        System.out.print("Enter the location of the item you wish to purchase: ");
+        System.out.print("Enter the location of the item you wish to purchase >>> ");
         Scanner selection = new Scanner(System.in);
         String location = selection.nextLine();
+        System.out.println(" ");
         List<Item> items = inventory();
         Item choice = null;
         for (Item item : items) {
@@ -85,21 +86,29 @@ public class Base {
                 System.out.println("You chose " + choice.getName() + " for $" + choice.getPrice() + " Glug Glug, Yum!");
             } else if (choice.getType().equals("Gum")) {
                 System.out.println("You chose " + choice.getName() + " for $" + choice.getPrice() + " Chew Chew, Yum!");
-            }
+            } VendingMachineLog.log(choice.getName() + " " + choice.getLocation() + " $" + getMoney().add(choice.getPrice()) + " $" + getMoney());
         } else {
+            System.out.println(" ");
             System.out.println("You did not insert enough money to purchase this item.");
         }
     }
 
     public void inputMoney() {
+        NumberFormat formatter = new DecimalFormat("#0.00");
         Scanner userIn = new Scanner(System.in);
-        System.out.print("Please enter the amount of money you are inserting: ");
+        System.out.println(" ");
+        System.out.print("Please enter the amount of money you are inserting >>> ");
         setMoney(getMoney().add(userIn.nextBigDecimal()));
+        VendingMachineLog.log("FEED MONEY: $" + formatter.format(getMoney()));
     }
 
     public void displayMoney() {
         NumberFormat formatter = new DecimalFormat("#0.00");
+        System.out.println(" ");
+        System.out.println("**********************");
         System.out.println("Available funds: $" + formatter.format(getMoney()));
+        System.out.println("**********************");
+        System.out.println(" ");
     }
 
     public void displayChange() {
@@ -109,46 +118,61 @@ public class Base {
         int nickels = 0;
         int pennies = 0;
         BigDecimal change = getMoney();
-        System.out.print("Dispensing: ");
-        while (change.compareTo(BigDecimal.valueOf(1)) >= 0) {
-            change = change.subtract(BigDecimal.valueOf(1));
-            dollars++;
-        } if (dollars == 1) {
-            System.out.print(dollars + " dollar ");
-        } if (dollars > 1) {
-            System.out.print(dollars + " dollars ");
-        }
-        while (change.compareTo(BigDecimal.valueOf(.25)) >= 0) {
-            change = change.subtract(BigDecimal.valueOf(.25));
-            quarters++;
-        } if (quarters == 1) {
-            System.out.print(quarters + " quarter ");
-        } if (quarters > 1) {
-            System.out.print(quarters + " quarters ");
-        }
-        while (change.compareTo(BigDecimal.valueOf(.1)) >= 0) {
-            change = change.subtract(BigDecimal.valueOf(.1));
-            dimes++;
-        } if (dimes == 1) {
-            System.out.print(dimes + " dime ");
-        } if (dimes > 1) {
-            System.out.print(dimes + " dimes ");
-        }
-        while (change.compareTo(BigDecimal.valueOf(.05)) >= 0) {
-            change = change.subtract(BigDecimal.valueOf(.05));
-            nickels++;
-        } if (nickels == 1) {
-            System.out.print(nickels + " nickel ");
-        } if (nickels > 1) {
-            System.out.print(nickels + " nickels ");
-        }
-        while (change.compareTo(BigDecimal.valueOf(.01)) >= 0) {
-            change = change.subtract(BigDecimal.valueOf(.01));
-            pennies++;
-        } if (pennies == 1) {
-            System.out.print(pennies + " penny");
-        } if (pennies > 1) {
-            System.out.print(pennies + " pennies");
+        VendingMachineLog.log("GIVE CHANGE: $" + change + " $" + change.subtract(change));
+        if (change.compareTo(BigDecimal.valueOf(0)) > 0) {
+            System.out.println(" ");
+            System.out.print("Dispensing: ");
+            while (change.compareTo(BigDecimal.valueOf(1)) >= 0) {
+                change = change.subtract(BigDecimal.valueOf(1));
+                dollars++;
+            }
+            if (dollars == 1) {
+                System.out.print(dollars + " dollar ");
+            }
+            if (dollars > 1) {
+                System.out.print(dollars + " dollars ");
+            }
+            while (change.compareTo(BigDecimal.valueOf(.25)) >= 0) {
+                change = change.subtract(BigDecimal.valueOf(.25));
+                quarters++;
+            }
+            if (quarters == 1) {
+                System.out.print(quarters + " quarter ");
+            }
+            if (quarters > 1) {
+                System.out.print(quarters + " quarters ");
+            }
+            while (change.compareTo(BigDecimal.valueOf(.1)) >= 0) {
+                change = change.subtract(BigDecimal.valueOf(.1));
+                dimes++;
+            }
+            if (dimes == 1) {
+                System.out.print(dimes + " dime ");
+            }
+            if (dimes > 1) {
+                System.out.print(dimes + " dimes ");
+            }
+            while (change.compareTo(BigDecimal.valueOf(.05)) >= 0) {
+                change = change.subtract(BigDecimal.valueOf(.05));
+                nickels++;
+            }
+            if (nickels == 1) {
+                System.out.print(nickels + " nickel ");
+            }
+            if (nickels > 1) {
+                System.out.print(nickels + " nickels ");
+            }
+            while (change.compareTo(BigDecimal.valueOf(.01)) >= 0) {
+                change = change.subtract(BigDecimal.valueOf(.01));
+                pennies++;
+            }
+            if (pennies == 1) {
+                System.out.print(pennies + " penny");
+            }
+            if (pennies > 1) {
+                System.out.print(pennies + " pennies");
+            }
+            System.out.println(" ");
         }
     }
 }

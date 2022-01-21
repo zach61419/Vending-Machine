@@ -48,6 +48,7 @@ public class VendingMachineCLI {
                         base.displayMoney();
                         base.getSelection();
                     } else if (choice.equals(PURCHASE_MENU_FINISH_TRANSACTION)) {
+                        System.out.println(" ");
                         System.out.println("*****************");
                         System.out.println("Change due: $" + formatter.format(base.getMoney()));
                         System.out.println("*****************");
@@ -57,6 +58,7 @@ public class VendingMachineCLI {
                     }
                 }
             } else if (choice.equals(MAIN_MENU_EXIT)) {
+                VendingMachineLog.log("```");
                 running = false;
             }
         }
