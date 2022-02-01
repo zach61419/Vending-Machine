@@ -1,0 +1,19 @@
+{
+  "name": "vue",
+  "version": "1.0.0",
+  "description": "VendingMachine",
+  "main": "index.js",
+  "scripts": {
+    
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zach61419/Vending-Machine.git"
+  },
+  "author": "zach61419",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zach61419/Vending-Machine/issues"
+  },
+  "homepage": "https://github.com/zach61419/Vending-Machine#readme"
+}
